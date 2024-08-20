@@ -6,6 +6,9 @@ class UsersController {
   async create(req, res) {
     const { name, email, password } = req.body;
 
+    const existingUsers = await knex("users").count("id as count");
+    const isFirstUser = existingUsers[0].count === 0;
+
     const checkUserExists = await knex("users").where({ email });
 
     if (checkUserExists.length > 0) {
@@ -14,7 +17,9 @@ class UsersController {
 
     const hashedPassword = await hash(password, 8);
 
-    await knex("users").insert({ name, email, password: hashedPassword });
+    const role = isFirstUser ? "admin" : "customer";
+
+    await knex("users").insert({ name, email, password: hashedPassword, role });
 
     return res.status(201).json();
   }
