@@ -83,7 +83,7 @@ class DishesController {
       const dishesWithIngredients = { dish, ingredients };
       return res.status(200).json(dishesWithIngredients);
     } catch (error) {
-      AppError("Não foi possível buscar prato", error);
+      new AppError("Não foi possível buscar prato", error);
       return res.status(500).json({ message: "Não foi possível buscar prato" });
     }
   }
