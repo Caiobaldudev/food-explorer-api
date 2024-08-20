@@ -3,7 +3,7 @@ const AppError = require("../utils/AppError");
 
 function verifyUserAuthorization (roleToVerify) {
   return (req, res, next) => {
-    const { role } = request.user;
+    const { role } = req.user;
 
     if(role !== roleToVerify){
       throw new AppError("Unauthorized", 401)
@@ -13,4 +13,4 @@ function verifyUserAuthorization (roleToVerify) {
   }
 }
 
-module.exports = verifyUserAuthorization()
+module.exports = verifyUserAuthorization;
