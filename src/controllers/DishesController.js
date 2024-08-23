@@ -37,7 +37,8 @@ class DishesController {
   }
 
   async update(req, res) {
-    const { name, description, image_id, price, category, ingredients } = req.body;
+    const { name, description, image_id, price, category, ingredients } =
+      req.body;
     const { id: dish_id } = req.params;
 
     try {
