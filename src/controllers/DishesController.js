@@ -15,7 +15,7 @@ class DishesController {
       const [dish_id] = await knex("dishes").insert({
         name,
         description,
-        price,
+        price: parseFloat(price),
         category,
       });
 
@@ -47,13 +47,15 @@ class DishesController {
         throw new AppError("Prato não encontrado", 404);
       }
 
-      await knex("dishes").where({ id: dish_id }).update({
-        name,
-        description,
-        image_id,
-        price,
-        category,
-      });
+      await knex("dishes")
+        .where({ id: dish_id })
+        .update({
+          name,
+          description,
+          image_id,
+          price: parseFloat(price),
+          category,
+        });
 
       await knex("ingredients").where({ dish_id }).del();
 
@@ -81,7 +83,11 @@ class DishesController {
         throw new AppError("Prato não encontrado", 404);
       }
       const ingredients = await knex("ingredients").where("dish_id", id);
-      const dishesWithIngredients = { ...dish, ingredients };
+      const dishesWithIngredients = {
+        ...dish,
+        ingredients,
+        price: dish.price.toFixed(2).replace(".", ","),
+      };
       return res.status(200).json(dishesWithIngredients);
     } catch (error) {
       console.error("Erro ao buscar prato:", error);
@@ -115,7 +121,15 @@ class DishesController {
           .orWhere("ingredients.name", "like", `%${search}%`);
       }
 
-      const dishes = await dishesQuery;
+      let dishes = await dishesQuery;
+
+      dishes = dishes.map(dish => ({
+        ...dish,
+        price: parseFloat(dish.price).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        })
+    }));
 
       return res.status(200).json(dishes);
     } catch (error) {
