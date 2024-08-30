@@ -47,15 +47,18 @@ class DishesController {
         throw new AppError("Prato não encontrado", 404);
       }
 
-      await knex("dishes")
-        .where({ id: dish_id })
-        .update({
-          name,
-          description,
-          image_id,
-          price: parseFloat(price),
-          category,
-        });
+      const updatedData = {
+        name,
+        description,
+        price: parseFloat(price),
+        category,
+      };
+
+      if (image_id) {
+        updatedData.image_id = image_id;
+      }
+
+      await knex("dishes").where({ id: dish_id }).update(updatedData);
 
       await knex("ingredients").where({ dish_id }).del();
 
@@ -123,13 +126,13 @@ class DishesController {
 
       let dishes = await dishesQuery;
 
-      dishes = dishes.map(dish => ({
+      dishes = dishes.map((dish) => ({
         ...dish,
-        price: parseFloat(dish.price).toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        })
-    }));
+        price: parseFloat(dish.price).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }),
+      }));
 
       return res.status(200).json(dishes);
     } catch (error) {
