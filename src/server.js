@@ -1,4 +1,5 @@
 require("express-async-errors");
+require("dotenv/config")
 const cors = require("cors");
 const AppError = require("../src/utils/AppError.js");
 const uploadConfig = require("./configs/upload");
