@@ -1,4 +1,5 @@
-![Thumbnail](https://github.com/user-attachments/assets/5f5b4673-8e7c-48e8-a5fd-413c66f15ad8)
+![Capafood](https://github.com/user-attachments/assets/bf677ff2-93c4-446d-aaf3-439a24484d8f)
+
 
 # 🚀 Food Explorer Backend
 
@@ -27,7 +28,7 @@ temos os logins de usuários: user@email.com 1234 | admin@email.com thistestadmi
 
 ## 💡 Possíveis Melhorias
 
-- Refatoração de algumas partes dos códigos.
+- Refatoração de algumas partes do código.
 
 ## 🧑‍🚀 Autor
 
